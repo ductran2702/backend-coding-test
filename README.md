@@ -1,36 +1,123 @@
-# Backend Coding Test
+# Serverless Framework Node Express API on AWS
 
-## Test 1
+This template demonstrates how to develop and deploy a simple Node Express API service running on AWS Lambda using the traditional Serverless Framework.
 
-- Fork and clone this project locally then begin the test in the repo.
-- Develop a backend system using the [NestJS](https://nestjs.com/) and [Serverless](https://serverless.com/) framework that will be deployed on [AWS Lambda](https://aws.amazon.com/lambda/) following the serverless architecture and the microservice principles of NestJS. The database used will be PostgreSQL and interactions with the DB will be through [TypeORM](https://github.com/typeorm/typeorm).
-- The backend should provide services that will allow the creation of a user profile on sign up that consist of `name` and `date of birth` which would authenticate with firebase authentication using the [firebase admin library](https://firebase.google.com/docs/admin/setup). Profile data should be stored on a PostgreSQL instance.
-- Setup a middleware that validates firebase auth token for each request.
-- Setup all other middleware that would commonly be used.
-- Create a blog service that allows the creation and management of blog articles which will be stored both on the PostgreSQL instance and on a Firebase firestore instance. All api routes of the blog service should be protected and only accessible through the admin role.
-- A public api route should be provided that returns a paginated list of blog articles.
-- Develop a CRON Job that will run once a day and will add a random word to the end of each blog title.
-- Deploy all work as instructed.
+## Anatomy of the template
 
-## Extra Points
+This template configures a single function, `api`, which is responsible for handling all incoming requests thanks to configured `http` events. To learn more about `http` event configuration options, please refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/). As the events are configured in a way to accept all incoming requests, `express` framework is responsible for routing and handling requests internally. Implementation takes advantage of `serverless-http` package, which allows you to wrap existing `express` applications. To learn more about `serverless-http`, please refer to corresponding [GitHub repository](https://github.com/dougmoscrop/serverless-http).
 
-- Generate an [OpenAPI](https://swagger.io/specification/) documentation for all routes
+## Usage
 
-## Good Job!
+### Deployment
 
-After completing the coding test, please provide the details listed below:
+This example is made to work with the Serverless Framework dashboard, which includes advanced features such as CI/CD, monitoring, metrics, etc.
 
-- API route links and Open API documentation
-- Public github link for all test completed
-- Any other information required to run and access the project such as environment keys (`.env`) and admin login
+In order to deploy with dashboard, you need to first login with:
 
-## Learn More
+```
+serverless login
+```
 
-To learn more about some of the technologies used, take a look at the following resources:
+install dependencies with:
 
-- [Nest.js Documentation](https://docs.nestjs.com/)
-- [Dayjs](https://day.js.org/)
-- [Serverless](https://www.serverless.com/framework/docs/)
-- [AWS Lambda](https://aws.amazon.com/lambda/getting-started/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [ElephantSQL](https://www.elephantsql.com/docs/index.html)
+```
+npm install
+```
+
+and then perform deployment with:
+
+```
+serverless deploy
+```
+
+After running deploy, you should see output similar to:
+
+```bash
+Serverless: Packaging service...
+Serverless: Excluding development dependencies...
+Serverless: Creating Stack...
+Serverless: Checking Stack create progress...
+........
+Serverless: Stack create finished...
+Serverless: Uploading CloudFormation file to S3...
+Serverless: Uploading artifacts...
+Serverless: Uploading service aws-node-express-api.zip file to S3 (711.23 KB)...
+Serverless: Validating template...
+Serverless: Updating Stack...
+Serverless: Checking Stack update progress...
+.................................
+Serverless: Stack update finished...
+Service Information
+service: aws-node-express-api
+stage: dev
+region: us-east-1
+stack: aws-node-express-api-dev
+resources: 12
+api keys:
+  None
+endpoints:
+  ANY - https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev/
+  ANY - https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev/{proxy+}
+functions:
+  api: aws-node-express-api-dev-api
+layers:
+  None
+```
+
+_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/).
+
+### Invocation
+
+After successful deployment, you can call the created application via HTTP:
+
+```bash
+curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev/
+```
+
+Which should result in the following response:
+
+```
+{"message":"Hello from root!"}
+```
+
+Calling the `/hello` path with:
+
+```bash
+curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev/hello
+```
+
+Should result in the following response:
+
+```bash
+{"message":"Hello from path!"}
+```
+
+If you try to invoke a path or method that does not have a configured handler, e.g. with:
+
+```bash
+curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev/nonexistent
+```
+
+You should receive the following response:
+
+```bash
+{"error":"Not Found"}
+```
+
+### Local development
+
+It is also possible to emulate API Gateway and Lambda locally by using `serverless-offline` plugin. In order to do that, execute the following command:
+
+```bash
+serverless plugin install -n serverless-offline
+```
+
+It will add the `serverless-offline` plugin to `devDependencies` in `package.json` file as well as will add it to `plugins` in `serverless.yml`.
+
+After installation, you can start local emulation with:
+
+```
+serverless offline
+```
+
+To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).

@@ -23,4 +23,5 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-
+.serverless
+node_modules

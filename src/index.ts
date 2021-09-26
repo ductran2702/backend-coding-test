@@ -5,6 +5,7 @@ import { Server } from 'http';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import * as awsServerlessExpress from 'aws-serverless-express';
 import * as express from 'express';
+import { setupSwagger } from './viveo-swagger';
 
 let cachedServer: Server;
 
@@ -13,14 +14,15 @@ const bootstrapServer = async (): Promise<Server> => {
   const adapter = new ExpressAdapter(expressApp);
   const app = await NestFactory.create(AppModule, adapter);
   app.enableCors();
+  setupSwagger(app);
   await app.init();
-  cachedServer = awsServerlessExpress.createServer(expressApp);
-  return cachedServer;
+  return awsServerlessExpress.createServer(expressApp);
 };
 
-bootstrapServer();
-
 export const handler: APIGatewayProxyHandler = async (event, context) => {
+  if (!cachedServer) {
+    cachedServer = await bootstrapServer();
+  }
   return awsServerlessExpress.proxy(cachedServer, event, context, 'PROMISE')
     .promise;
 };

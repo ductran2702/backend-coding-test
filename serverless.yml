@@ -1,9 +1,13 @@
-service: serverless-nestjs
+org: tranduc2702
+app: backend-coding-test
+service: backend-coding-test
+
+frameworkVersion: '2'
 
 provider:
   name: aws
   runtime: nodejs12.x
-  region: us-east-1
+  lambdaHashingVersion: '20201221'
 
 plugins:
   - serverless-offline
@@ -16,8 +20,8 @@ package:
     - e2e/**
     - nodemon.json
     - README.md
-  # individually: false
-  # excludeDevDependencies: false
+  individually: true
+  excludeDevDependencies: true
 
 functions:
   index:
@@ -31,6 +35,17 @@ functions:
         cors: true
         path: '{proxy+}'
         method: any
+
+# functions:
+#   api:
+#     handler: dist/src/index.handler
+#     events:
+#       - http:
+#           path: /
+#           method: ANY
+#       - http:
+#           path: /{proxy+}
+#           method: ANY
 
 # custom:
 #   optimize:

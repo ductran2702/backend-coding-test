@@ -1,21 +1,37 @@
-org: tranduc2702
-app: backend-coding-test
-service: backend-coding-test
-
-frameworkVersion: '2'
+service: serverless-nestjs
 
 provider:
   name: aws
   runtime: nodejs12.x
-  lambdaHashingVersion: '20201221'
+  region: us-east-1
+
+plugins:
+  - serverless-offline
+
+package:
+  exclude:
+    - .git/**
+    - src/**
+    - test/**
+    - e2e/**
+    - nodemon.json
+    - README.md
+  # individually: false
+  # excludeDevDependencies: false
 
 functions:
-  api:
-    handler: handler.handler
+  index:
+    handler: dist/src/index.handler
     events:
-      - http:
-          path: /
-          method: ANY
-      - http:
-          path: /{proxy+}
-          method: ANY
+    - http:
+        cors: true
+        path: '/'
+        method: any
+    - http:
+        cors: true
+        path: '{proxy+}'
+        method: any
+
+# custom:
+#   optimize:
+#     external: ['swagger-ui-dist']

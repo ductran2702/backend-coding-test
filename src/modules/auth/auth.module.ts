@@ -1,3 +1,4 @@
+import { FirebaseAdminModule } from '@aginix/nestjs-firebase-admin';
 import { forwardRef, Module } from '@nestjs/common';
 //import { PassportModule } from '@nestjs/passport';
 
@@ -9,6 +10,7 @@ import { AuthService } from './auth.service';
 @Module({
   imports: [
     forwardRef(() => UserModule),
+    FirebaseAdminModule,
     //PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [AuthController],

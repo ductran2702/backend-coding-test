@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@aginix/nestjs-firebase-admin": "^2.2.0",
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
@@ -33,13 +34,13 @@
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "request-context": "^2.0.0",
-    "typeorm": "^0.2.37",
-    "@nestjs/swagger": "^4.5.12"
-  },
-  "devDependencies": {
     "rimraf": "^3.0.2",
     "rxjs": "^7",
-    "serverless-bundle": "^5.0.2",
+    "@nestjs/swagger": "^4.5.12",
+    "typeorm": "^0.2.37"
+  },
+  "devDependencies": {
+    "firebase": "^9.1.0",
     "@nestjs/cli": "^7.0.0",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.0",

@@ -5,13 +5,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './filters/bad-request.filter';
 import { QueryFailedFilter } from './filters/query-failed.filter';
 import { setupSwagger } from './viveo-swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // const reflector = app.get(Reflector);
   // app.useGlobalFilters(
@@ -19,6 +20,7 @@ async function bootstrap() {
   //   new QueryFailedFilter(reflector),
   // );
   // app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

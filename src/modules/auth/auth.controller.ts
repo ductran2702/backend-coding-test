@@ -10,13 +10,14 @@ import {
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+//import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
   ApiConsumes,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { FirebaseAuthenticationService } from '@aginix/nestjs-firebase-admin';
 
 import { AuthUser } from '../../decorators/auth-user.decorator';
 //import { ApiFile } from '../../decorators/swagger.schema';
@@ -37,22 +38,23 @@ export class AuthController {
   constructor(
     public readonly userService: UserService,
     public readonly authService: AuthService,
+    public readonly firebaseAuth: FirebaseAuthenticationService,
   ) {}
 
-  @Post('login')
-  @HttpCode(HttpStatus.OK)
-  @ApiOkResponse({
-    type: LoginPayloadDto,
-    description: 'User info with access token',
-  })
-  async userLogin(
-    @Body() userLoginDto: UserLoginDto,
-  ): Promise<LoginPayloadDto> {
-    const userEntity = await this.authService.validateUser(userLoginDto);
+  // @Post('login')
+  // @HttpCode(HttpStatus.OK)
+  // @ApiOkResponse({
+  //   type: LoginPayloadDto,
+  //   description: 'User info with access token',
+  // })
+  // async userLogin(
+  //   @Body() userLoginDto: UserLoginDto,
+  // ): Promise<LoginPayloadDto> {
+  //   const userEntity = await this.authService.validateUser(userLoginDto);
 
-    const token = await this.authService.createToken(userEntity);
-    return new LoginPayloadDto(userEntity.toDto(), token);
-  }
+  //   const token = await this.authService.createToken(userEntity);
+  //   return new LoginPayloadDto(userEntity.toDto(), token);
+  // }
 
   @Post('register')
   @HttpCode(HttpStatus.OK)
@@ -65,25 +67,22 @@ export class AuthController {
     userRegisterDto: UserRegisterDto,
     //@UploadedFile() file: IFile,
   ): Promise<UserDto> {
-    console.log(
-      '🚀 ~ file: auth.controller.ts ~ line 66 ~ AuthController ~ userRegisterDto',
-      userRegisterDto,
-    );
-    const createdUser = await this.userService.createUser(
-      userRegisterDto,
-      //file,
-    );
+    await this.firebaseAuth.createUser({
+      ...userRegisterDto,
+      displayName: userRegisterDto.name,
+    });
+    const createdUser = await this.userService.createUser(userRegisterDto);
 
     return createdUser.toDto();
   }
 
-  @Get('me')
-  @HttpCode(HttpStatus.OK)
-  //@UseGuards(AuthGuard)
-  @UseInterceptors(AuthUserInterceptor)
-  @ApiBearerAuth()
-  @ApiOkResponse({ type: UserDto, description: 'current user info' })
-  getCurrentUser(@AuthUser() user: UserEntity) {
-    return user.toDto();
-  }
+  // @Get('me')
+  // @HttpCode(HttpStatus.OK)
+  // //@UseGuards(AuthGuard)
+  // @UseInterceptors(AuthUserInterceptor)
+  // @ApiBearerAuth()
+  // @ApiOkResponse({ type: UserDto, description: 'current user info' })
+  // getCurrentUser(@AuthUser() user: UserEntity) {
+  //   return user.toDto();
+  // }
 }

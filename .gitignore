@@ -26,3 +26,5 @@ yarn-error.log*
 .serverless
 node_modules
 /dist
+
+backend-coding-test-bb24f-firebase-adminsdk-qwity-0894c1b619.json

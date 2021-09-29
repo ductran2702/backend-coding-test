@@ -27,7 +27,6 @@ import { UserService } from './user.service';
 @Controller('users')
 @ApiTags('users')
 @UseGuards(RolesGuard) //AuthGuard, RolesGuard)
-@UseInterceptors(AuthUserInterceptor)
 @ApiBearerAuth()
 export class UserController {
   constructor(
@@ -37,6 +36,7 @@ export class UserController {
   @Get('admin')
   @Roles(RoleType.USER)
   @HttpCode(HttpStatus.OK)
+  @UseInterceptors(AuthUserInterceptor)
   async admin(@AuthUser() user: UserEntity): Promise<string> {
     // const translation = await this._i18n.translate(
     //   'translations.keywords.admin',
@@ -48,7 +48,7 @@ export class UserController {
   }
 
   @Get('users')
-  @Roles(RoleType.ADMIN)
+  //@Roles(RoleType.ADMIN)
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,

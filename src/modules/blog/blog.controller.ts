@@ -18,6 +18,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { FirebaseFirestoreService } from '@aginix/nestjs-firebase-admin';
 //import { I18nService } from 'nestjs-i18n';
 
 import { RoleType } from '../../common/constants/role-type';
@@ -31,19 +32,22 @@ import { BlogsPageOptionsDto } from './dto/BlogsPageOptionsDto';
 import { BlogEntity } from './blog.entity';
 import { BlogService } from './blog.service';
 import { BlogDto } from './dto/BlogDto';
+import { CreateBlogDto } from './dto/CreateBlogDto';
+import { UtilsService } from 'src/providers/utils.service';
 
 @Controller('blogs')
 @ApiTags('blogs')
 @UseGuards(RolesGuard) //AuthGuard, RolesGuard)
-@UseInterceptors(AuthUserInterceptor)
+//@UseInterceptors(AuthUserInterceptor)
 @ApiHeader({ name: 'Token' })
 export class BlogController {
   constructor(
     private _blogService: BlogService, //private readonly _i18n: I18nService,
+    private _firestoreService: FirebaseFirestoreService, //private readonly _i18n: I18nService,
   ) {}
 
   @Post('create')
-  @Roles(RoleType.ADMIN)
+  @Roles(RoleType.USER)
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
@@ -52,24 +56,16 @@ export class BlogController {
   })
   async createBlog(
     @Body()
-    blogDto: BlogDto,
+    createBlogDto: CreateBlogDto,
   ): Promise<BlogDto> {
-    const createdBlog = await this._blogService.createBlog(blogDto);
-    return createdBlog.toDto();
-  }
+    const createdBlog = await this._blogService.createBlog(createBlogDto);
 
-  @Get('blogs')
-  @Roles(RoleType.ADMIN)
-  @HttpCode(HttpStatus.OK)
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Get users list',
-    type: BlogsPageDto,
-  })
-  getBlogs(
-    @Query(new ValidationPipe({ transform: true }))
-    pageOptionsDto: BlogsPageOptionsDto,
-  ): Promise<BlogsPageDto> {
-    return this._blogService.getBlogs(pageOptionsDto);
+    const docRef = this._firestoreService
+      .collection('blogs')
+      .doc(createdBlog.id);
+    await docRef.set({
+      ...createBlogDto,
+    });
+    return createdBlog.toDto();
   }
 }

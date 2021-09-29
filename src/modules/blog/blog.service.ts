@@ -10,6 +10,8 @@ import { BlogsPageOptionsDto } from './dto/BlogsPageOptionsDto';
 import { BlogEntity } from './blog.entity';
 import { BlogRepository } from './blog.repository';
 import { BlogDto } from './dto/BlogDto';
+import { CreateBlogDto } from './dto/CreateBlogDto';
+import { Order } from 'src/common/constants/order';
 
 @Injectable()
 export class BlogService {
@@ -24,15 +26,46 @@ export class BlogService {
     return this.blogRepository.findOne(findData);
   }
 
-  async createBlog(
-    blogRegisterDto: BlogDto,
-    //file: IFile,
-  ): Promise<BlogEntity> {
+  async createBlog(blogRegisterDto: CreateBlogDto): Promise<BlogEntity> {
     const blog = this.blogRepository.create({
       ...blogRegisterDto,
     });
     const savedBlog = await this.blogRepository.save(blog);
     return savedBlog;
+  }
+
+  async updateBlog(id: string, blogDto: BlogDto): Promise<BlogEntity> {
+    const savedBlog = await this.blogRepository.update(
+      {
+        id,
+      },
+      blogDto,
+    );
+    return savedBlog;
+  }
+
+  async addWordToAllBlogs(word: string): Promise<void> {
+    let blogs: BlogsPageDto;
+    let page: number = 1;
+    let pageOptionsDto: BlogsPageOptionsDto;
+    const take = 2;
+    do {
+      pageOptionsDto = {
+        page,
+        order: Order.ASC,
+        take,
+        skip: (page - 1) * take,
+      };
+      blogs = await this.getBlogs(pageOptionsDto);
+      page++;
+      const newBlogs = blogs.data.map(blog => {
+        blog.title += word;
+        return blog;
+      });
+      await this.blogRepository.save(newBlogs);
+    } while (blogs.meta.hasNextPage);
+
+    return;
   }
 
   async getBlogs(pageOptionsDto: BlogsPageOptionsDto): Promise<BlogsPageDto> {

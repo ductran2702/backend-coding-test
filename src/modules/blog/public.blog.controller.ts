@@ -34,19 +34,15 @@ import { BlogDto } from './dto/BlogDto';
 
 @Controller('blogs')
 @ApiTags('blogs')
-@UseGuards(RolesGuard) //AuthGuard, RolesGuard)
-@UseInterceptors(AuthUserInterceptor)
-@ApiHeader({ name: 'Token' })
-export class BlogController {
+export class PublicBlogController {
   constructor(
     private _blogService: BlogService, //private readonly _i18n: I18nService,
   ) {}
   @Get('blogs')
-  @Roles(RoleType.ADMIN)
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Get users list',
+    description: 'Get blogs list',
     type: BlogsPageDto,
   })
   getBlogs(

@@ -66,10 +66,7 @@ export class ConfigService {
         return migration;
       });
     }
-    console.log(
-      "🚀 ~ file: config.service.ts ~ line 79 ~ ConfigService ~ gettypeOrmConfig ~ this.get('DB_USERNAME')",
-      this.get('DB_USERNAME'),
-    );
+
     return {
       entities,
       migrations,

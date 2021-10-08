@@ -50,7 +50,7 @@ export class BlogController {
   ) {}
 
   @Post('create')
-  @Roles(RoleType.USER)
+  @Roles(RoleType.ADMIN)
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
@@ -66,7 +66,7 @@ export class BlogController {
   }
 
   @Put('update')
-  @Roles(RoleType.USER)
+  @Roles(RoleType.ADMIN)
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
@@ -87,7 +87,7 @@ export class BlogController {
   }
 
   @Delete('delete')
-  @Roles(RoleType.USER)
+  @Roles(RoleType.ADMIN)
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,

@@ -38,7 +38,6 @@ export class AuthController {
   constructor(
     public readonly userService: UserService,
     public readonly authService: AuthService,
-    public readonly firebaseAuth: FirebaseAuthenticationService,
   ) {}
 
   // @Post('login')
@@ -67,10 +66,6 @@ export class AuthController {
     userRegisterDto: UserRegisterDto,
     //@UploadedFile() file: IFile,
   ): Promise<UserDto> {
-    await this.firebaseAuth.createUser({
-      ...userRegisterDto,
-      displayName: userRegisterDto.name,
-    });
     const createdUser = await this.userService.createUser(userRegisterDto);
 
     return createdUser.toDto();

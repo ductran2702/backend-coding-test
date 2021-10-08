@@ -64,7 +64,7 @@ export class BlogService {
 
     await Promise.all([this.blogRepository.delete(blogId), docRef.delete()]);
 
-    return true;
+    return Promise.resolve(true);
   }
 
   async addWordToAllBlogs(): Promise<void> {
@@ -87,7 +87,7 @@ export class BlogService {
       });
     } while (blogsPage.meta.hasNextPage);
 
-    return;
+    return Promise.resolve();
   }
 
   async getBlogs(pageOptionsDto: BlogsPageOptionsDto): Promise<BlogsPageDto> {

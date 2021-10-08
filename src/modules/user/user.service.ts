@@ -1,5 +1,8 @@
+import { FirebaseAuthenticationService } from '@aginix/nestjs-firebase-admin';
 import { Injectable } from '@nestjs/common';
+import { RoleType } from 'src/common/constants/role-type';
 import { FindConditions } from 'typeorm';
+import { AdminRegisterDto } from '../auth/dto/AdminRegisterDto';
 
 //import { FileNotImageException } from '../../exceptions/file-not-image.exception';
 //import { IFile } from '../../interfaces/IFile';
@@ -15,6 +18,7 @@ import { UserRepository } from './user.repository';
 export class UserService {
   constructor(
     public readonly userRepository: UserRepository, //public readonly validatorService: ValidatorService, //public readonly awsS3Service: AwsS3Service,
+    public readonly firebaseAuth: FirebaseAuthenticationService,
   ) {}
 
   /**
@@ -46,6 +50,11 @@ export class UserService {
     userRegisterDto: UserRegisterDto,
     //file: IFile,
   ): Promise<UserEntity> {
+    await this.firebaseAuth.createUser({
+      ...userRegisterDto,
+      displayName: userRegisterDto.name,
+    });
+
     const user = this.userRepository.create({
       ...userRegisterDto,
     });
@@ -53,8 +62,26 @@ export class UserService {
     return savedUser;
   }
 
+  async createAdminUser(
+    adminRegisterDto: AdminRegisterDto,
+    //file: IFile,
+  ): Promise<UserEntity> {
+    await this.firebaseAuth.createUser({
+      ...adminRegisterDto,
+      displayName: adminRegisterDto.name,
+    });
+
+    const user = this.userRepository.create({
+      ...adminRegisterDto,
+      role: RoleType.ADMIN,
+    });
+    const savedUser = await this.userRepository.save(user);
+    return savedUser;
+  }
+
   async getUsers(pageOptionsDto: UsersPageOptionsDto): Promise<UsersPageDto> {
     const queryBuilder = this.userRepository.createQueryBuilder('user');
+    queryBuilder.where('user.role = :role', { role: RoleType.USER });
     const [users, pageMetaDto] = await queryBuilder.paginate(pageOptionsDto);
 
     return new UsersPageDto(users.toDtos(), pageMetaDto);

@@ -1,11 +1,8 @@
-import { FirebaseAuthenticationService } from '@aginix/nestjs-firebase-admin';
 import { Injectable } from '@nestjs/common';
-//import { JwtService } from '@nestjs/jwt';
 
 import { UserNotFoundException } from '../../exceptions/user-not-found.exception';
 import { ContextService } from '../../providers/context.service';
 import { UtilsService } from '../../providers/utils.service';
-//import { ConfigService } from '../../shared/services/config.service';
 import { UserDto } from '../user/dto/UserDto';
 import { UserEntity } from '../user/user.entity';
 import { UserService } from '../user/user.service';
@@ -16,16 +13,12 @@ import { UserLoginDto } from './dto/UserLoginDto';
 export class AuthService {
   private static _authUserKey = 'user_key';
 
-  constructor(
-    //public readonly jwtService: JwtService,
-    //public readonly configService: ConfigService,
-    public readonly userService: UserService,
-  ) {}
+  constructor(public readonly userService: UserService) {}
 
   async createToken(user: UserEntity | UserDto): Promise<TokenPayloadDto> {
     return new TokenPayloadDto({
-      expiresIn: 30, //this.configService.getNumber('JWT_EXPIRATION_TIME'),
-      accessToken: '', //await this.jwtService.signAsync({ id: user.id }),
+      expiresIn: 30,
+      accessToken: '',
     });
   }
 

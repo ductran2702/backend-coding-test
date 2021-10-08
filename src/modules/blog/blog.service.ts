@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions, UpdateResult } from 'typeorm';
+import { FindConditions } from 'typeorm';
 import * as faker from 'faker';
 
 import { BlogsPageDto } from './dto/BlogsPageDto';
@@ -10,7 +10,6 @@ import { BlogDto } from './dto/BlogDto';
 import { CreateBlogDto } from './dto/CreateBlogDto';
 import { Order } from 'src/common/constants/order';
 import { FirebaseFirestoreService } from '@aginix/nestjs-firebase-admin';
-import { IdDto } from 'src/common/dto/IdDto';
 import { UpdateBlogDto } from './dto/UpdateBlogDto';
 
 @Injectable()

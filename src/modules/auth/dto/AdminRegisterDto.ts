@@ -6,7 +6,6 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { UserRegisterDto } from './UserRegisterDto';
 
 export class AdminRegisterDto {
   @IsString()

@@ -1,8 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 
-//import { IAwsConfig } from '../../interfaces/IAwsConfig';
-//import { SnakeNamingStrategy } from '../../snake-naming.strategy';
 import { UserSubscriber } from '../entity-subscribers/user-subscriber';
 
 export class ConfigService {
@@ -52,7 +50,7 @@ export class ConfigService {
         true,
         /\.entity\.ts$/,
       );
-      entities = entityContext.keys().map((id) => {
+      entities = entityContext.keys().map(id => {
         const entityModule = entityContext(id);
         const [entity] = Object.values(entityModule);
         return entity;
@@ -62,7 +60,7 @@ export class ConfigService {
         false,
         /\.ts$/,
       );
-      migrations = migrationContext.keys().map((id) => {
+      migrations = migrationContext.keys().map(id => {
         const migrationModule = migrationContext(id);
         const [migration] = Object.values(migrationModule);
         return migration;
@@ -85,15 +83,6 @@ export class ConfigService {
       subscribers: [UserSubscriber],
       migrationsRun: true,
       logging: this.nodeEnv === 'development',
-      //namingStrategy: new SnakeNamingStrategy(),
     };
   }
-
-  //   get awsS3Config(): IAwsConfig {
-  //     return {
-  //       accessKeyId: this.get('AWS_S3_ACCESS_KEY_ID'),
-  //       secretAccessKey: this.get('AWS_S3_SECRET_ACCESS_KEY'),
-  //       bucketName: this.get('S3_BUCKET_NAME'),
-  //     };
-  //   }
 }

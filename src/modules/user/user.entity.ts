@@ -21,11 +21,5 @@ export class UserEntity extends AbstractEntity<UserDto> {
   @Column({ nullable: true })
   password: string;
 
-  //   @Column({ nullable: true })
-  //   phone: string;
-
-  // @Column({ nullable: true })
-  // avatar: string;
-
   dtoClass = UserDto;
 }

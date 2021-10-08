@@ -4,10 +4,6 @@ import { RoleType } from 'src/common/constants/role-type';
 import { FindConditions } from 'typeorm';
 import { AdminRegisterDto } from '../auth/dto/AdminRegisterDto';
 
-//import { FileNotImageException } from '../../exceptions/file-not-image.exception';
-//import { IFile } from '../../interfaces/IFile';
-//import { AwsS3Service } from '../../shared/services/aws-s3.service';
-//import { ValidatorService } from '../../shared/services/validator.service';
 import { UserRegisterDto } from '../auth/dto/UserRegisterDto';
 import { UsersPageDto } from './dto/UsersPageDto';
 import { UsersPageOptionsDto } from './dto/UsersPageOptionsDto';
@@ -17,7 +13,7 @@ import { UserRepository } from './user.repository';
 @Injectable()
 export class UserService {
   constructor(
-    public readonly userRepository: UserRepository, //public readonly validatorService: ValidatorService, //public readonly awsS3Service: AwsS3Service,
+    public readonly userRepository: UserRepository,
     public readonly firebaseAuth: FirebaseAuthenticationService,
   ) {}
 
@@ -46,10 +42,7 @@ export class UserService {
     return queryBuilder.getOne();
   }
 
-  async createUser(
-    userRegisterDto: UserRegisterDto,
-    //file: IFile,
-  ): Promise<UserEntity> {
+  async createUser(userRegisterDto: UserRegisterDto): Promise<UserEntity> {
     await this.firebaseAuth.createUser({
       ...userRegisterDto,
       displayName: userRegisterDto.name,
@@ -64,7 +57,6 @@ export class UserService {
 
   async createAdminUser(
     adminRegisterDto: AdminRegisterDto,
-    //file: IFile,
   ): Promise<UserEntity> {
     await this.firebaseAuth.createUser({
       ...adminRegisterDto,

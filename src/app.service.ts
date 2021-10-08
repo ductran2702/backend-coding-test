@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { AdminRegisterDto } from './modules/auth/dto/AdminRegisterDto';
-import { UserRegisterDto } from './modules/auth/dto/UserRegisterDto';
 import { BlogService } from './modules/blog/blog.service';
 import { UserService } from './modules/user/user.service';
 

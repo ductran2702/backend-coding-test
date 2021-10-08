@@ -1,31 +1,15 @@
 'use strict';
 
 import {
-  Body,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
-  Post,
   Query,
-  UseGuards,
-  UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiHeader,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-//import { I18nService } from 'nestjs-i18n';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { RoleType } from '../../common/constants/role-type';
-import { AuthUser } from '../../decorators/auth-user.decorator';
-import { Roles } from '../../decorators/roles.decorator';
-//import { AuthGuard } from '../../guards/auth.guard';
-import { RolesGuard } from '../../guards/roles.guard';
-import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
 import { BlogsPageDto } from './dto/BlogsPageDto';
 import { BlogsPageOptionsDto } from './dto/BlogsPageOptionsDto';
 import { BlogService } from './blog.service';

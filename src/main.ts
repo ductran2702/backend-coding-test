@@ -8,8 +8,6 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { AppService } from './app.service';
-import { HttpExceptionFilter } from './filters/bad-request.filter';
-import { QueryFailedFilter } from './filters/query-failed.filter';
 import { setupSwagger } from './viveo-swagger';
 
 async function bootstrap() {

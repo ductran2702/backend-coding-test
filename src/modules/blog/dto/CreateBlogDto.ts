@@ -1,16 +1,7 @@
 'use strict';
 
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  IsDate,
-  IsDateString,
-  IsString,
-  MinLength,
-} from 'class-validator';
-import { Column } from 'typeorm';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateBlogDto {
   @IsString()

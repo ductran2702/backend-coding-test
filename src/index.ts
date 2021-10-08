@@ -40,12 +40,6 @@ const bootstrap = async (): Promise<Server> => {
       console.log('Seeding failed!');
       throw error;
     });
-  // const reflector = app.get(Reflector);
-  // app.useGlobalFilters(
-  //   new HttpExceptionFilter(reflector),
-  //   new QueryFailedFilter(reflector),
-  // );
-  // app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
 
   app.useGlobalPipes(
     new ValidationPipe({

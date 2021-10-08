@@ -36,7 +36,8 @@ import { BlogService } from './blog.service';
 import { BlogDto } from './dto/BlogDto';
 import { CreateBlogDto } from './dto/CreateBlogDto';
 import { UtilsService } from 'src/providers/utils.service';
-import { BlogIdDto } from './dto/BlogIdDto';
+import { IdDto } from '../../common/dto/IdDto';
+import { UpdateBlogDto } from './dto/UpdateBlogDto';
 
 @Controller('blogs')
 @ApiTags('blogs')
@@ -73,10 +74,15 @@ export class BlogController {
     type: BlogDto,
   })
   async updateBlog(
+    @Query(new ValidationPipe({ transform: true }))
+    blogIdDto: IdDto,
     @Body()
-    blogDto: BlogDto,
+    blogDto: UpdateBlogDto,
   ): Promise<BlogDto> {
-    const updatedBlog = await this._blogService.updateBlog(blogDto);
+    const updatedBlog = await this._blogService.updateBlog(
+      blogIdDto.id,
+      blogDto,
+    );
     return updatedBlog.toDto();
   }
 
@@ -86,12 +92,12 @@ export class BlogController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Update blog',
-    type: BlogDto,
+    type: Boolean,
   })
   async deleteBlog(
     @Query(new ValidationPipe({ transform: true }))
-    blogIdDto: BlogIdDto,
+    blogIdDto: IdDto,
   ): Promise<boolean> {
-    return await this._blogService.deleteBlog(blogIdDto.id);
+    return this._blogService.deleteBlog(blogIdDto.id);
   }
 }

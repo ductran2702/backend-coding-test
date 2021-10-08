@@ -30,7 +30,7 @@ import { BlogsPageDto } from './dto/BlogsPageDto';
 import { BlogsPageOptionsDto } from './dto/BlogsPageOptionsDto';
 import { BlogService } from './blog.service';
 import { BlogDto } from './dto/BlogDto';
-import { BlogIdDto } from './dto/BlogIdDto';
+import { IdDto } from 'src/common/dto/IdDto';
 
 @Controller('blogs')
 @ApiTags('blogs')
@@ -61,7 +61,7 @@ export class PublicBlogController {
   })
   getBlog(
     @Query(new ValidationPipe({ transform: true }))
-    blogIdDto: BlogIdDto,
+    blogIdDto: IdDto,
   ): Promise<BlogDto> {
     return this._blogService.getBlog(blogIdDto.id);
   }

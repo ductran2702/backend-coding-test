@@ -10,6 +10,8 @@ import { BlogDto } from './dto/BlogDto';
 import { CreateBlogDto } from './dto/CreateBlogDto';
 import { Order } from 'src/common/constants/order';
 import { FirebaseFirestoreService } from '@aginix/nestjs-firebase-admin';
+import { IdDto } from 'src/common/dto/IdDto';
+import { UpdateBlogDto } from './dto/UpdateBlogDto';
 
 @Injectable()
 export class BlogService {
@@ -39,21 +41,22 @@ export class BlogService {
     return savedBlog;
   }
 
-  async updateBlog(blogDto: BlogDto): Promise<BlogEntity> {
-    const docRef = this.firestoreService.collection('blogs').doc(blogDto.id);
-    await Promise.all([
-      this.blogRepository.update(
-        {
-          id: blogDto.id,
-        },
-        blogDto,
-      ),
-      docRef.set({
-        ...blogDto,
-      }),
-    ]);
+  async updateBlog(
+    id: string,
+    updateBlogDto: UpdateBlogDto,
+  ): Promise<BlogEntity> {
+    const docRef = this.firestoreService.collection('blogs').doc(id);
+    await this.blogRepository.update(
+      {
+        id,
+      },
+      updateBlogDto,
+    );
+    await docRef.update({
+      ...updateBlogDto,
+    });
 
-    return this.blogRepository.findOne(blogDto.id);
+    return this.blogRepository.findOne(id);
   }
 
   async deleteBlog(blogId: string): Promise<boolean> {
@@ -80,7 +83,7 @@ export class BlogService {
       page++;
       blogsPage.data.forEach(async blog => {
         blog.title += ' ' + faker.random.words(1);
-        await this.updateBlog(blog);
+        await this.updateBlog(blog.id, blog);
       });
     } while (blogsPage.meta.hasNextPage);
 

@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import * as faker from 'faker';
+import { BlogService } from './modules/blog/blog.service';
 
 @Injectable()
 export class AppService {
-  @Cron(CronExpression.EVERY_5_SECONDS)
+  constructor(public readonly blogService: BlogService) {}
+
+  @Cron(CronExpression.EVERY_DAY_AT_10AM)
   addWordToBlogTitleJob(): void {
-    console.log('addWordToBlogTitleJob', faker.random.words(1));
+    this.blogService.addWordToAllBlogs();
   }
 
   getHello(): string {

@@ -3,10 +3,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Post,
+  Put,
   Query,
   UseGuards,
   UseInterceptors,
@@ -34,6 +36,7 @@ import { BlogService } from './blog.service';
 import { BlogDto } from './dto/BlogDto';
 import { CreateBlogDto } from './dto/CreateBlogDto';
 import { UtilsService } from 'src/providers/utils.service';
+import { BlogIdDto } from './dto/BlogIdDto';
 
 @Controller('blogs')
 @ApiTags('blogs')
@@ -43,7 +46,6 @@ import { UtilsService } from 'src/providers/utils.service';
 export class BlogController {
   constructor(
     private _blogService: BlogService, //private readonly _i18n: I18nService,
-    private _firestoreService: FirebaseFirestoreService, //private readonly _i18n: I18nService,
   ) {}
 
   @Post('create')
@@ -52,20 +54,44 @@ export class BlogController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Create blog',
-    type: BlogsPageDto,
+    type: BlogDto,
   })
   async createBlog(
     @Body()
     createBlogDto: CreateBlogDto,
   ): Promise<BlogDto> {
     const createdBlog = await this._blogService.createBlog(createBlogDto);
-
-    const docRef = this._firestoreService
-      .collection('blogs')
-      .doc(createdBlog.id);
-    await docRef.set({
-      ...createBlogDto,
-    });
     return createdBlog.toDto();
+  }
+
+  @Put('update')
+  @Roles(RoleType.USER)
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Update blog',
+    type: BlogDto,
+  })
+  async updateBlog(
+    @Body()
+    blogDto: BlogDto,
+  ): Promise<BlogDto> {
+    const updatedBlog = await this._blogService.updateBlog(blogDto);
+    return updatedBlog.toDto();
+  }
+
+  @Delete('delete')
+  @Roles(RoleType.USER)
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Update blog',
+    type: BlogDto,
+  })
+  async deleteBlog(
+    @Query(new ValidationPipe({ transform: true }))
+    blogIdDto: BlogIdDto,
+  ): Promise<boolean> {
+    return await this._blogService.deleteBlog(blogIdDto.id);
   }
 }

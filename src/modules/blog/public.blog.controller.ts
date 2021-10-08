@@ -28,9 +28,9 @@ import { RolesGuard } from '../../guards/roles.guard';
 import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
 import { BlogsPageDto } from './dto/BlogsPageDto';
 import { BlogsPageOptionsDto } from './dto/BlogsPageOptionsDto';
-import { BlogEntity } from './blog.entity';
 import { BlogService } from './blog.service';
 import { BlogDto } from './dto/BlogDto';
+import { BlogIdDto } from './dto/BlogIdDto';
 
 @Controller('blogs')
 @ApiTags('blogs')
@@ -50,5 +50,19 @@ export class PublicBlogController {
     pageOptionsDto: BlogsPageOptionsDto,
   ): Promise<BlogsPageDto> {
     return this._blogService.getBlogs(pageOptionsDto);
+  }
+
+  @Get('blog')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get blogs detail',
+    type: BlogDto,
+  })
+  getBlog(
+    @Query(new ValidationPipe({ transform: true }))
+    blogIdDto: BlogIdDto,
+  ): Promise<BlogDto> {
+    return this._blogService.getBlog(blogIdDto.id);
   }
 }

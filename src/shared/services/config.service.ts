@@ -78,7 +78,7 @@ export class ConfigService {
       password: this.get('DB_PASSWORD'),
       database: this.get('DB_DATABASE'),
       subscribers: [UserSubscriber],
-      migrationsRun: true,
+      migrationsRun: false,
       logging: this.nodeEnv === 'development',
     };
   }

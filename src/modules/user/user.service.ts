@@ -1,6 +1,7 @@
 import { FirebaseAuthenticationService } from '@aginix/nestjs-firebase-admin';
 import { Injectable } from '@nestjs/common';
 import { RoleType } from 'src/common/constants/role-type';
+import { EmailExistedException } from 'src/exceptions/email-existed.exception';
 import { FindConditions } from 'typeorm';
 import { AdminRegisterDto } from '../auth/dto/AdminRegisterDto';
 
@@ -43,15 +44,20 @@ export class UserService {
   }
 
   async createUser(userRegisterDto: UserRegisterDto): Promise<UserEntity> {
-    await this.firebaseAuth.createUser({
-      ...userRegisterDto,
-      displayName: userRegisterDto.name,
+    const existedEmail = await this.userRepository.findOne({
+      email: userRegisterDto.email,
     });
-
+    if (existedEmail) {
+      throw new EmailExistedException();
+    }
     const user = this.userRepository.create({
       ...userRegisterDto,
     });
     const savedUser = await this.userRepository.save(user);
+    await this.firebaseAuth.createUser({
+      ...userRegisterDto,
+      displayName: userRegisterDto.name,
+    });
     return savedUser;
   }
 

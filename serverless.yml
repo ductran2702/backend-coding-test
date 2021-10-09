@@ -11,6 +11,8 @@ provider:
 
 plugins:
   - serverless-offline
+  #- '@hewmen/serverless-plugin-typescript'  
+  #- serverless-plugin-optimize
 
 package:
   exclude:
@@ -24,7 +26,7 @@ package:
   excludeDevDependencies: true
 
 functions:
-  index:
+  main:
     handler: dist/src/index.handler
     events:
     - http:

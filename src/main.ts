@@ -12,16 +12,7 @@ import { setupSwagger } from './viveo-swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  const appService = app.get(AppService);
-  appService
-    .seed()
-    .then(() => {
-      console.log('Seeding complete!');
-    })
-    .catch(error => {
-      console.log('Seeding failed!');
-      throw error;
-    });
+
   // const reflector = app.get(Reflector);
   // app.useGlobalFilters(
   //   new HttpExceptionFilter(reflector),

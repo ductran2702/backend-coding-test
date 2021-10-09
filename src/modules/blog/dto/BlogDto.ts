@@ -12,9 +12,9 @@ export class BlogDto extends AbstractDto {
   @ApiPropertyOptional()
   content: string;
 
-  constructor(user: BlogEntity) {
-    super(user);
-    this.title = user.title;
-    this.content = user.content;
+  constructor(blogEntity: BlogEntity) {
+    super(blogEntity);
+    this.title = blogEntity.title;
+    this.content = blogEntity.content;
   }
 }

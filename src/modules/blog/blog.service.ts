@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { FindConditions } from 'typeorm';
 import * as faker from 'faker';
+import { validate as uuidValidate } from 'uuid';
 
 import { BlogsPageDto } from './dto/BlogsPageDto';
 import { BlogsPageOptionsDto } from './dto/BlogsPageOptionsDto';
@@ -44,6 +45,9 @@ export class BlogService {
     id: string,
     updateBlogDto: UpdateBlogDto,
   ): Promise<BlogEntity> {
+    if (!(uuidValidate(id) && (await this.blogRepository.findOne(id)))) {
+      throw new NotFoundException();
+    }
     const docRef = this.firestoreService.collection('blogs').doc(id);
     await this.blogRepository.update(
       {
@@ -58,12 +62,21 @@ export class BlogService {
     return this.blogRepository.findOne(id);
   }
 
-  async deleteBlog(blogId: string): Promise<boolean> {
-    const docRef = this.firestoreService.collection('blogs').doc(blogId);
+  async deleteBlog(id: string): Promise<any> {
+    if (!uuidValidate(id)) {
+      throw new NotFoundException();
+    }
+    const docRef = this.firestoreService.collection('blogs').doc(id);
 
-    await Promise.all([this.blogRepository.delete(blogId), docRef.delete()]);
+    const [result, _doc] = await Promise.all([
+      this.blogRepository.delete(id),
+      docRef.delete(),
+    ]);
+    if (result.affected === 0) {
+      throw new NotFoundException();
+    }
 
-    return Promise.resolve(true);
+    return Promise.resolve({ result: true });
   }
 
   async addWordToAllBlogs(): Promise<void> {
@@ -97,6 +110,10 @@ export class BlogService {
   }
 
   async getBlog(blogId: string): Promise<BlogDto> {
-    return this.blogRepository.findOne(blogId);
+    const blog = this.blogRepository.findOne(blogId);
+    if (!blog) {
+      throw new NotFoundException();
+    }
+    return blog;
   }
 }

@@ -64,7 +64,7 @@ export class BlogController {
       blogIdDto.id,
       blogDto,
     );
-    return updatedBlog.toDto();
+    return updatedBlog;
   }
 
   @Delete('delete')
@@ -78,7 +78,7 @@ export class BlogController {
   async deleteBlog(
     @Query(new ValidationPipe({ transform: true }))
     blogIdDto: IdDto,
-  ): Promise<boolean> {
+  ): Promise<any> {
     return this._blogService.deleteBlog(blogIdDto.id);
   }
 }

@@ -109,8 +109,11 @@ export class BlogService {
     return new BlogsPageDto(blogs.toDtos(), pageMetaDto);
   }
 
-  async getBlog(blogId: string): Promise<BlogDto> {
-    const blog = this.blogRepository.findOne(blogId);
+  async getBlog(id: string): Promise<BlogDto> {
+    if (!uuidValidate(id)) {
+      throw new NotFoundException();
+    }
+    const blog = this.blogRepository.findOne(id);
     if (!blog) {
       throw new NotFoundException();
     }

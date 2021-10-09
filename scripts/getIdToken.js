@@ -22,10 +22,25 @@ signInWithEmailAndPassword(auth, 'admin@yopmail.com', '12345678')
     auth.currentUser
       .getIdToken(/* forceRefresh */ true)
       .then(function(idToken) {
-        console.log(
-          '🚀 ~ file: getIdToken.js ~ line 52 ~ .then ~ idToken',
-          idToken,
-        );
+        console.log('🚀 admin@yopmail.com idToken', idToken);
+      })
+      .catch(function(error) {
+        console.log('GetIdToken error', error);
+      });
+  })
+  .catch(error => {
+    console.log('signInWithEmailAndPassword error', error);
+  });
+
+signInWithEmailAndPassword(auth, 'email@yopmail.com', '12345678')
+  .then(userCredential => {
+    // Signed in
+    const user = userCredential.user;
+    const auth = getAuth();
+    auth.currentUser
+      .getIdToken(/* forceRefresh */ true)
+      .then(function(idToken) {
+        console.log('🚀 email@yopmail.com idToken', idToken);
       })
       .catch(function(error) {
         console.log('GetIdToken error', error);

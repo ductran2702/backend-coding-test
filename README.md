@@ -6,6 +6,6 @@ serverless migrations up
 
 npx nestjs-command create:user
 
-# Get admin token
+# Get admin token & user token
 
 node ./scripts/getIdToken.js

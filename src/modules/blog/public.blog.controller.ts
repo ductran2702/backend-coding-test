@@ -40,7 +40,7 @@ export class PublicBlogController {
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Get blogs detail',
+    description: 'Get blog detail',
     type: BlogDto,
   })
   getBlog(

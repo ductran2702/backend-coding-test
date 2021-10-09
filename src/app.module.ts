@@ -14,7 +14,12 @@ import { ConfigService } from './shared/services/config.service';
 import { firebaseAuthMiddleware } from './middlewares/firebaseAuth.middleware';
 import { BlogModule } from './modules/blog/blog.module';
 import { BlogController } from './modules/blog/blog.controller';
-var serviceAccount = require('/home/ductran272/project/tmp/stayr/backend-coding-test/backend-coding-test-bb24f-firebase-adminsdk-qwity-0894c1b619.json');
+import { serviceAccount } from './config/serviceAccount';
+import { UserService } from './modules/user/user.service';
+import { UserSeed } from './modules/user/seed/user.seed';
+import { CommandModule } from 'nestjs-command';
+import { UserRepository } from './modules/user/user.repository';
+//import { SeedsModule } from './shared/seeds.module';
 
 @Module({
   imports: [
@@ -28,13 +33,14 @@ var serviceAccount = require('/home/ductran272/project/tmp/stayr/backend-coding-
     }),
     FirebaseAdminModule.forRootAsync({
       useFactory: () => ({
-        credential: admin.credential.cert(serviceAccount),
+        credential: admin.credential.cert(serviceAccount as any),
       }),
     }),
     ScheduleModule.forRoot(),
+    CommandModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UserService, UserSeed, UserRepository],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

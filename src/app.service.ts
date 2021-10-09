@@ -21,12 +21,6 @@ export class AppService {
   }
 
   async seed() {
-    const userAdmin = await this.userService.findOne({
-      email: 'admin@yopmail.com',
-    });
-    if (userAdmin) {
-      return Promise.resolve(null);
-    }
     const adminRegisterDto = new AdminRegisterDto({
       name: 'admin',
       email: 'admin@yopmail.com',

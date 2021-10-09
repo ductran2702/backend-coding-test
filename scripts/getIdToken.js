@@ -14,7 +14,7 @@ const firebaseConfig = {
 // Initialize Firebase
 initializeApp(firebaseConfig);
 const auth = getAuth();
-signInWithEmailAndPassword(auth, 'string@yopmail.com', 'string')
+signInWithEmailAndPassword(auth, 'admin@yopmail.com', '12345678')
   .then(userCredential => {
     // Signed in
     const user = userCredential.user;

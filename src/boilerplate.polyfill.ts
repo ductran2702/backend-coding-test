@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention,@typescript-eslint/tslint/config */
-import 'source-map-support/register';
+//import 'source-map-support/register';
 
 import * as _ from 'lodash';
 import { Brackets, QueryBuilder, SelectQueryBuilder } from 'typeorm';
@@ -28,16 +28,16 @@ declare module 'typeorm' {
   }
 }
 
-Array.prototype.toDtos = function <B extends AbstractDto>(options?: any): B[] {
+Array.prototype.toDtos = function<B extends AbstractDto>(options?: any): B[] {
   return _(this)
-    .map((item) => item.toDto(options))
+    .map(item => item.toDto(options))
     .compact()
     .value() as B[];
 };
 
-QueryBuilder.prototype.searchByString = function (q, columnNames) {
+QueryBuilder.prototype.searchByString = function(q, columnNames) {
   this.andWhere(
-    new Brackets((qb) => {
+    new Brackets(qb => {
       for (const item of columnNames) {
         qb.orWhere(`${item} ILIKE :q`);
       }
@@ -49,7 +49,7 @@ QueryBuilder.prototype.searchByString = function (q, columnNames) {
   return this;
 };
 
-SelectQueryBuilder.prototype.paginate = async function <Entity>(
+SelectQueryBuilder.prototype.paginate = async function<Entity>(
   this: SelectQueryBuilder<Entity>,
   pageOptionsDto: PageOptionsDto,
 ): Promise<[Entity[], PageMetaDto]> {

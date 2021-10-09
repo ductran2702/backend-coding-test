@@ -19,6 +19,7 @@ import { UserService } from './modules/user/user.service';
 import { UserSeed } from './modules/user/seed/user.seed';
 import { CommandModule } from 'nestjs-command';
 import { UserRepository } from './modules/user/user.repository';
+import { SeedsModule } from './shared/seeds.module';
 //import { SeedsModule } from './shared/seeds.module';
 
 @Module({
@@ -37,10 +38,10 @@ import { UserRepository } from './modules/user/user.repository';
       }),
     }),
     ScheduleModule.forRoot(),
-    CommandModule,
+    SeedsModule,
   ],
   controllers: [AppController],
-  providers: [AppService, UserService, UserSeed, UserRepository],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

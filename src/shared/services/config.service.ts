@@ -36,10 +36,6 @@ export class ConfigService {
     return this.get('NODE_ENV') || 'development';
   }
 
-  get fallbackLanguage(): string {
-    return this.get('FALLBACK_LANGUAGE').toLowerCase();
-  }
-
   get typeOrmConfig(): TypeOrmModuleOptions {
     let entities = [__dirname + '/../../modules/**/*.entity{.ts,.js}'];
     let migrations = [__dirname + '/../../migrations/*{.ts,.js}'];

@@ -1,11 +1,5 @@
 import './src/boilerplate.polyfill';
 
-//import { SnakeNamingStrategy } from './src/snake-naming.strategy';
-
-console.log(
-  '🚀 ~ file: ormconfig.ts ~ line 16 ~ process.env.DB_USERNAME',
-  process.env.DB_USERNAME,
-);
 module.exports = {
   type: 'postgres',
   host: process.env.DB_HOST,

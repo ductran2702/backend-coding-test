@@ -14,7 +14,7 @@ import { ConfigService } from './shared/services/config.service';
 import { firebaseAuthMiddleware } from './middlewares/firebaseAuth.middleware';
 import { BlogModule } from './modules/blog/blog.module';
 import { BlogController } from './modules/blog/blog.controller';
-import { serviceAccount } from './config/serviceAccount';
+import * as firebaseConfig from './config/serviceAccount.json';
 import { UserService } from './modules/user/user.service';
 import { UserSeed } from './modules/user/seed/user.seed';
 import { CommandModule } from 'nestjs-command';
@@ -34,7 +34,7 @@ import { SeedsModule } from './shared/seeds.module';
     }),
     FirebaseAdminModule.forRootAsync({
       useFactory: () => ({
-        credential: admin.credential.cert(serviceAccount as any),
+        credential: admin.credential.cert(firebaseConfig as any),
       }),
     }),
     ScheduleModule.forRoot(),

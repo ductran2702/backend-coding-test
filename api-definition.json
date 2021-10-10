@@ -1,0 +1,507 @@
+{
+  "swaggerDoc": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API",
+      "description": "",
+      "version": "0.0.1",
+      "contact": {}
+    },
+    "tags": [],
+    "servers": [],
+    "components": {
+      "securitySchemes": {
+        "bearer": {
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "type": "http"
+        }
+      },
+      "schemas": {
+        "UserRegisterDto": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "dob": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "password": {
+              "type": "string",
+              "minLength": 6
+            }
+          },
+          "required": [
+            "name",
+            "email",
+            "dob",
+            "password"
+          ]
+        },
+        "UserDto": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string",
+              "enum": [
+                "USER",
+                "ADMIN"
+              ]
+            },
+            "email": {
+              "type": "string"
+            },
+            "dob": {
+              "format": "date-time",
+              "type": "string"
+            }
+          }
+        },
+        "PageMetaDto": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "number"
+            },
+            "take": {
+              "type": "number"
+            },
+            "itemCount": {
+              "type": "number"
+            },
+            "pageCount": {
+              "type": "number"
+            },
+            "hasPreviousPage": {
+              "type": "boolean"
+            },
+            "hasNextPage": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "page",
+            "take",
+            "itemCount",
+            "pageCount",
+            "hasPreviousPage",
+            "hasNextPage"
+          ]
+        },
+        "UsersPageDto": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            },
+            "meta": {
+              "$ref": "#/components/schemas/PageMetaDto"
+            }
+          },
+          "required": [
+            "data",
+            "meta"
+          ]
+        },
+        "CreateBlogDto": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title",
+            "content"
+          ]
+        },
+        "BlogDto": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            }
+          }
+        },
+        "UpdateBlogDto": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            }
+          }
+        },
+        "BlogsPageDto": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/BlogDto"
+              }
+            },
+            "meta": {
+              "$ref": "#/components/schemas/PageMetaDto"
+            }
+          },
+          "required": [
+            "data",
+            "meta"
+          ]
+        }
+      }
+    },
+    "paths": {
+      "/": {
+        "get": {
+          "operationId": "AppController_getHello",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          }
+        }
+      },
+      "/auth/register": {
+        "post": {
+          "operationId": "AuthController_userRegister",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRegisterDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successfully Registered",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserDto"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "auth"
+          ]
+        }
+      },
+      "/users/users": {
+        "get": {
+          "operationId": "UserController_getUsers",
+          "parameters": [
+            {
+              "name": "order",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "default": "ASC",
+                "enum": [
+                  "ASC",
+                  "DESC"
+                ],
+                "type": "string"
+              }
+            },
+            {
+              "name": "page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "minimum": 1,
+                "default": 1,
+                "type": "number"
+              }
+            },
+            {
+              "name": "take",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "minimum": 1,
+                "maximum": 50,
+                "default": 10,
+                "type": "number"
+              }
+            },
+            {
+              "name": "q",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Get users list",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UsersPageDto"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "users"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/blogs/create": {
+        "post": {
+          "operationId": "BlogController_createBlog",
+          "parameters": [
+            {
+              "name": "Token",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateBlogDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Create blog",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BlogDto"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "blogs"
+          ]
+        }
+      },
+      "/blogs/update": {
+        "put": {
+          "operationId": "BlogController_updateBlog",
+          "parameters": [
+            {
+              "name": "Token",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "id",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateBlogDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Update blog",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BlogDto"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "blogs"
+          ]
+        }
+      },
+      "/blogs/delete": {
+        "delete": {
+          "operationId": "BlogController_deleteBlog",
+          "parameters": [
+            {
+              "name": "Token",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "id",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Update blog",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "blogs"
+          ]
+        }
+      },
+      "/blogs/blogs": {
+        "get": {
+          "operationId": "PublicBlogController_getBlogs",
+          "parameters": [
+            {
+              "name": "order",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "default": "ASC",
+                "enum": [
+                  "ASC",
+                  "DESC"
+                ],
+                "type": "string"
+              }
+            },
+            {
+              "name": "page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "minimum": 1,
+                "default": 1,
+                "type": "number"
+              }
+            },
+            {
+              "name": "take",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "minimum": 1,
+                "maximum": 50,
+                "default": 10,
+                "type": "number"
+              }
+            },
+            {
+              "name": "q",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Get blogs list",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BlogsPageDto"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "blogs"
+          ]
+        }
+      },
+      "/blogs/blog": {
+        "get": {
+          "operationId": "PublicBlogController_getBlog",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Get blog detail",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BlogDto"
+                  }
+                }
+              }
+            }
+          },
+          "tags": [
+            "blogs"
+          ]
+        }
+      }
+    }
+  },
+  "customOptions": {},
+  "swaggerUrl": {}
+};

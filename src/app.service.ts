@@ -11,24 +11,7 @@ export class AppService {
     public readonly userService: UserService,
   ) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_10AM)
-  addWordToBlogTitleJob(): void {
-    this.blogService.addWordToAllBlogs();
-  }
-
   getHello(): string {
     return 'Hello World!';
-  }
-
-  async seed() {
-    const adminRegisterDto = new AdminRegisterDto({
-      name: 'admin',
-      email: 'admin@yopmail.com',
-      dob: Date(),
-      password: '12345678',
-    });
-    const createdUser = await this.userService.createAdminUser(
-      adminRegisterDto,
-    );
   }
 }

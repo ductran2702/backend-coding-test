@@ -28,3 +28,4 @@ node_modules
 /dist
 .env
 serviceAccount.json
+clientFirebase.json

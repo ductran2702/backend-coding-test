@@ -39,7 +39,7 @@ functions:
         cors: true
         path: '/'
         method: any
-    - http:
-        cors: true
-        path: '{proxy+}'
-        method: any
+  blogTitle: 
+    handler: "dist/src/cron/index.handler"
+    events:
+    - schedule: rate(1 minute)

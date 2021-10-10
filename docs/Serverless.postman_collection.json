@@ -1,0 +1,314 @@
+{
+	"info": {
+		"_postman_id": "9610c031-2232-473d-902c-cbf6e4366535",
+		"name": "Serverless",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Blogs",
+			"item": [
+				{
+					"name": "blog",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/blogs/blog?id=fc14df7d-229c-41a3-be25-276641334ea5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"blogs",
+								"blog"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "fc14df7d-229c-41a3-be25-276641334ea5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "blogs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/blogs/blogs?order=ASC&page=1&take=10",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"blogs",
+								"blogs"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "ASC"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "blogs",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"title2\",\r\n    \"content\": \"content2\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/blogs/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"blogs",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "blogs",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjM1MDM0MmIwMjU1MDAyYWI3NWUwNTM0YzU4MmVjYzY2Y2YwZTE3ZDIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiYWRtaW4iLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYmFja2VuZC1jb2RpbmctdGVzdC1iYjI0ZiIsImF1ZCI6ImJhY2tlbmQtY29kaW5nLXRlc3QtYmIyNGYiLCJhdXRoX3RpbWUiOjE2MzM3ODg0ODUsInVzZXJfaWQiOiJ2RzVmY3UweDFsTWFMNFBjOXBVYjNtS29ZemEyIiwic3ViIjoidkc1ZmN1MHgxbE1hTDRQYzlwVWIzbUtvWXphMiIsImlhdCI6MTYzMzc4ODQ4NSwiZXhwIjoxNjMzNzkyMDg1LCJlbWFpbCI6ImFkbWluQHlvcG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFkbWluQHlvcG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.JOhgTQPTNo7BK58DL6bfIgJeLE0Jf3FKIwIbd59R7mCyRiLmFGVTQuAQ6kXGTPJio6yddzC9ww6W58ibCqo7283PW9igEdCXxIvng8VzDQ5seaMOGLGH4JyxMcJCYgCNi8ss6TxZ3ue6eIIMuWVt-k68xKTVb7HUu6WB9a9gGl0rCwe4DqOevQzw5nYk-HZIC01hi_ekKKiAHr8ytMMCYnL2O8FXPlL8RFO777CfY2Slvwn-UMSHaS1ygkjlraSeL2Wad0KAHwRXS-F-5ewY6IZr8Ev_cKhvAvkyXclcvGQZIB-kJ-Q0oOnMaJxuxiDPcUVBowmTk1oU2P9_NPCa_w",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"title1 updated\",\r\n    \"content\": \"content1 updated\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/blogs/update?id=47ee5a73-4e33-4530-b9ec-efa683a58e48",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"blogs",
+								"update"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "47ee5a73-4e33-4530-b9ec-efa683a58e48"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "blogs",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjM1MDM0MmIwMjU1MDAyYWI3NWUwNTM0YzU4MmVjYzY2Y2YwZTE3ZDIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiYWRtaW4iLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYmFja2VuZC1jb2RpbmctdGVzdC1iYjI0ZiIsImF1ZCI6ImJhY2tlbmQtY29kaW5nLXRlc3QtYmIyNGYiLCJhdXRoX3RpbWUiOjE2MzM3ODg0ODUsInVzZXJfaWQiOiJ2RzVmY3UweDFsTWFMNFBjOXBVYjNtS29ZemEyIiwic3ViIjoidkc1ZmN1MHgxbE1hTDRQYzlwVWIzbUtvWXphMiIsImlhdCI6MTYzMzc4ODQ4NSwiZXhwIjoxNjMzNzkyMDg1LCJlbWFpbCI6ImFkbWluQHlvcG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFkbWluQHlvcG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.JOhgTQPTNo7BK58DL6bfIgJeLE0Jf3FKIwIbd59R7mCyRiLmFGVTQuAQ6kXGTPJio6yddzC9ww6W58ibCqo7283PW9igEdCXxIvng8VzDQ5seaMOGLGH4JyxMcJCYgCNi8ss6TxZ3ue6eIIMuWVt-k68xKTVb7HUu6WB9a9gGl0rCwe4DqOevQzw5nYk-HZIC01hi_ekKKiAHr8ytMMCYnL2O8FXPlL8RFO777CfY2Slvwn-UMSHaS1ygkjlraSeL2Wad0KAHwRXS-F-5ewY6IZr8Ev_cKhvAvkyXclcvGQZIB-kJ-Q0oOnMaJxuxiDPcUVBowmTk1oU2P9_NPCa_w",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/blogs/delete?id=fc14df7d-229c-41a3-be25-276641334ea5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"blogs",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "fc14df7d-229c-41a3-be25-276641334ea5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"name\",\r\n    \"email\": \"email@yopmail.com\",\r\n    \"dob\": \"09/10/2021T22:20:00Z\",\r\n    \"password\": \"12345678\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/auth/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/blogs/blogs?order=ASC&page=1&take=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"blogs",
+						"blogs"
+					],
+					"query": [
+						{
+							"key": "order",
+							"value": "ASC"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "take",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "serverless",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/dev/blogs/blogs?order=ASC&page=1&take=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"blogs",
+						"blogs"
+					],
+					"query": [
+						{
+							"key": "order",
+							"value": "ASC"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "take",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hello world",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/dev",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"dev"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

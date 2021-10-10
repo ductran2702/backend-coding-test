@@ -73,7 +73,7 @@ export class BlogController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Update blog',
-    type: Boolean,
+    type: Object,
   })
   async deleteBlog(
     @Query(new ValidationPipe({ transform: true }))

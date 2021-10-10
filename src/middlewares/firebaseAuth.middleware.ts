@@ -33,7 +33,10 @@ export class firebaseAuthMiddleware implements NestMiddleware {
         req.user = user;
         next();
       } catch (error) {
-        throw new Error(error);
+        throw new HttpException(
+          'Authentication error.',
+          HttpStatus.UNAUTHORIZED,
+        );
       }
     } else {
       throw new HttpException('Not authorized.', HttpStatus.UNAUTHORIZED);

@@ -1,6 +1,6 @@
 org: tranduc2702
-app: backend-coding-test
-service: backend-coding-test
+app: backend-test-stayr
+service: backend-test-stayr
 
 frameworkVersion: '2'
 
@@ -19,8 +19,6 @@ provider:
 plugins:
   - serverless-offline
   - serverless-sequelize-migrations
-  #- '@hewmen/serverless-plugin-typescript'  
-  #- serverless-plugin-optimize
 
 package:
   exclude:
@@ -45,18 +43,3 @@ functions:
         cors: true
         path: '{proxy+}'
         method: any
-
-# functions:
-#   api:
-#     handler: dist/src/index.handler
-#     events:
-#       - http:
-#           path: /
-#           method: ANY
-#       - http:
-#           path: /{proxy+}
-#           method: ANY
-
-# custom:
-#   optimize:
-#     external: ['swagger-ui-dist']

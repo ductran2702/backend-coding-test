@@ -83,7 +83,7 @@ export class BlogService {
     let blogsPage: BlogsPageDto;
     let page: number = 1;
     let pageOptionsDto: BlogsPageOptionsDto;
-    const take = 2;
+    const take = 10;
     do {
       pageOptionsDto = {
         page,
@@ -93,10 +93,10 @@ export class BlogService {
       };
       blogsPage = await this.getBlogs(pageOptionsDto);
       page++;
-      blogsPage.data.forEach(async blog => {
+      for (const blog of blogsPage.data) {
         blog.title += ' ' + faker.random.words(1);
         await this.updateBlog(blog.id, blog);
-      });
+      }
     } while (blogsPage.meta.hasNextPage);
 
     return Promise.resolve();

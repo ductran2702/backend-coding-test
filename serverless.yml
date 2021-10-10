@@ -42,4 +42,4 @@ functions:
   blogTitle: 
     handler: "dist/src/cron/index.handler"
     events:
-    - schedule: rate(1 minute)
+    - schedule: rate(1 day)

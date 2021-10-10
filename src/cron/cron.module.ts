@@ -28,7 +28,7 @@ import { BlogRepository } from 'src/modules/blog/blog.repository';
     }),
   ],
   controllers: [],
-  providers: [CronService, BlogService],
+  providers: [CronService],
 })
 export class CronModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {}
